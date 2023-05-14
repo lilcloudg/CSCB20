@@ -1,0 +1,12 @@
+{% extends "navigation.html" %}
+{% block content %}
+        <h1>Welcome to my page!</h1>
+        <p>
+            This is my page... it's pretty awesome!
+        </p>
+        <p>
+            <button type="button" id="dont-click">DO NOT CLICK</button>
+        </p>
+        <script src="{{ url_for('static', filename='js/onlyhome.js') }}"></script>
+    
+{% endblock %}

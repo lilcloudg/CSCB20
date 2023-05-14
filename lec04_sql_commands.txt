@@ -1,0 +1,169 @@
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE Instructor(
+    faculty_id TEXT,
+    name TEXT,     
+    office TEXT,
+    PRIMARY KEY(faculty_id)
+);
+
+CREATE TABLE Course(
+    code TEXT,
+    semester TEXT,
+    enrolment INTEGER,
+    room TEXT,
+    instructor TEXT,
+    PRIMARY KEY(code, semester),
+    FOREIGN KEY(instructor) 
+        REFERENCES Instructor(faculty_id),
+    CHECK(enrolment > 10)
+    );
+
+INSERT INTO Instructor(faculty_id, name, office)
+VALUES
+    ('12345', 'Brian', 'IC342'),
+    ('98765', 'Turing', 'IC456'),
+    ('23456', 'Einstein', 'SW222'),
+    ('34567', 'Curie', 'SY234')
+;
+
+INSERT INTO Course(code, semester, enrolment, room, instructor)
+    VALUES
+    ('CSCB20', 'S', 450, 'AC223', '12345'),
+    ('CSCA08', 'F', 575, 'IC120', '12345'),
+    ('CSCA08', 'S', 225, 'IC404', '98765'),
+    ('CSCC64', 'F', 125, 'IC404', '98765'),
+    ('PHYA01', 'F', 800, 'SW309', '23456'),
+    ('PHYA01', 'S', 600, 'SW309', '34567'),
+    ('CHMA01', 'F', 900, 'IC101', '34567')
+;
+
+SELECT "---Instructor";
+SELECT * FROM Instructor;
+SELECT "---Course";
+SELECT * FROM Course;
+SELECT "---";
+--projection
+SELECT code, room FROM Course;
+SELECT "---";
+--selection
+SELECT * FROM Course WHERE semester='F';
+SELECT "---";
+--basic join (why can't we do a natural join here?)
+SELECT * FROM Course JOIN Instructor WHERE faculty_id=instructor;
+SELECT "---";
+--we can rename tables
+ALTER TABLE Course 
+    RENAME TO MyAwesomeTableName;
+SELECT * FROM MyAwesomeTableName;
+--but... let's rename this one back, shall we?
+ALTER TABLE MyAwesomeTableName
+    RENAME TO Course;
+SELECT "---";
+--courses taught in both semesters using intersection
+SELECT code
+    FROM Course
+    WHERE semester='F'
+INTERSECT
+SELECT code
+    FROM Course
+    WHERE semester='S';
+SELECT "---";
+--courses taught in both semesters using views
+CREATE VIEW FallCourses AS
+    SELECT * FROM Course WHERE semester='F';
+CREATE VIEW SpringCourses AS
+    SELECT * FROM Course WHERE semester = 'S';
+
+SELECT FallCourses.code FROM FallCourses JOIN SpringCourses
+    WHERE FallCourses.code=SpringCourses.code;
+SELECT "---";
+---Other cool SQL Stuff
+CREATE VIEW AllData AS
+    SELECT * FROM Course JOIN Instructor 
+    WHERE Course.instructor = Instructor.faculty_id;
+
+--let's order the data, first by instructor name (ascending), then by 
+--course code (descending)
+SELECT * FROM AllData
+    ORDER BY
+        name ASC,
+        code DESC;
+
+SELECT "---";
+--we can just get the list of distinct elements without repetitions
+SELECT DISTINCT room from AllData;
+
+SELECT "---";
+--sometimes we get LOTS of data in a query, so we can limit it to only the first few 
+--results (often useful if you're just inspecting and don't want to be overwhelmed 
+--with everything)
+SELECT * FROM AllData
+    LIMIT 3;
+
+SELECT "---";
+--all courses with enrolment between 400-700 students
+SELECT * FROM Course
+    WHERE enrolment BETWEEN 400 AND 700;
+SELECT "---";
+--all courses in IC120 or IC404
+SELECT * FROM Course
+    WHERE room in ('IC120', 'IC404');
+SELECT "---";
+--all courses in any IC rooms
+SELECT * FROM Course
+    WHERE room LIKE 'IC%';
+SELECT "---";
+--faculty who have offices in SW or SY
+SELECT * FROM Instructor
+    WHERE office LIKE 'S_2%';
+---comparing join types
+--for this to make sense, we need at least one instructor
+--who isn't teaching a course, and a course that isn't taught
+--by anyone
+INSERT INTO Instructor
+    VALUES('99999','Dr. Lazy', 'HW999');
+--fun fact, our FK constraint meant we couldn't add a course taught
+--by someone not in the instructors table, but it doesn't stop us from
+--having a course not taught by anyone
+INSERT INTO Course
+    VALUES('CSCX99', 'F', 12, 'IC999', NULL);
+SELECT "---Instructor";
+SELECT * FROM Instructor;
+SELECT "---Course";
+SELECT * FROM Course;
+
+SELECT "---INNER JOIN";
+SELECT * FROM Course INNER JOIN Instructor
+    ON instructor.faculty_id = Course.instructor;
+SELECT "---LEFT JOIN";
+SELECT * FROM Course LEFT JOIN Instructor
+    ON instructor.faculty_id = Course.instructor;
+SELECT "---RIGHT JOIN";
+SELECT * FROM Course RIGHT JOIN Instructor
+    ON instructor.faculty_id = Course.instructor;
+
+SELECT "---";
+--how many students does Brian teach?
+SELECT sum(enrolment) FROM
+    COURSE JOIN INSTRUCTOR
+    WHERE Course.instructor = Instructor.faculty_id
+    AND name = 'Brian';
+SELECT "---";
+--- how many students does each instructor teach?
+SELECT Instructor.name, sum(Course.enrolment) FROM
+    Course JOIN Instructor
+    WHERE Course.instructor = Instructor.faculty_id
+    GROUP BY Instructor.name;
+SELECT "---";
+--- how many students does each instructor teach?
+--- and we can even limit it to people who teach at least
+--- 2 courses
+SELECT Instructor.name, sum(Course.enrolment) FROM
+    Course JOIN Instructor
+    WHERE Course.instructor = Instructor.faculty_id
+    GROUP BY Instructor.name
+    HAVING count(course.code) >= 2;
+
+
+

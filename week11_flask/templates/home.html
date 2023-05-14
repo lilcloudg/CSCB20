@@ -1,0 +1,18 @@
+{% extends "navigation.html" %}
+{% block content %}
+        <h1>Welcome to my page!</h1>
+        {% if session.user %}
+        <p>
+            Welcome back {{ session.user }}
+        </p>
+        {% else %}
+        <p>
+            This is my page... it's pretty awesome!
+        </p>
+        {% endif %}
+        <p>
+            <button type="button" id="dont-click">DO NOT CLICK</button>
+        </p>
+        <script src="{{ url_for('static', filename='js/onlyhome.js') }}"></script>
+    
+{% endblock %}

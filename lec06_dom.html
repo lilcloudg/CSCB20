@@ -1,0 +1,34 @@
+<html>
+    <head>
+    </head>
+    <body>
+        <p>
+            <button type="button" id="dont-click">DO NOT CLICK</button>
+        </p>
+
+        <hr>
+        
+        <p id="target">
+            You clicked the button <a id="count-target">0</a> times
+        </p>
+        <!-- old & busted, call from onclick
+        <button type="button" onclick="countClicks()">Try it</button>
+        -->
+        <!-- new hotness, use eventlistener-->
+        <button type="button" id="count-button">Try it</button>
+
+        <hr>
+
+
+        <p class="brian">
+            Welcome to Brian's Super Secure Login Website
+        </p>
+        <input type="text" id="name-input"></input> <-- Enter name here
+        <input type="submit" id="name-submit" value="Submit name" />
+        <p class="brian" id="name-response">
+            I don't know yet
+        </p>            
+    <script src="lecture06_dom.js"></script>
+           
+    </body>
+</html>

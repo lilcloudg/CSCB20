@@ -1,0 +1,73 @@
+body {
+  background-color: lightblue;
+}
+
+h1 {
+    color: blue;
+}
+
+.rant{
+    color: red;
+}
+
+.important{
+    font-size: 20pt;
+}
+
+#briansrant{
+    text-shadow: 2px 2px green;
+}
+
+.dynamic-text{
+    font-size: 10vw;
+}
+
+.dynamic-img{
+    width: 40vw;
+}
+/* ----- dynamic examples ---- */
+.header{
+    background-color:#993399;
+    padding:15px; /* provide a little padding around this box*/
+    text-align:center;
+    font-size: 15vw;
+}
+
+.menu{
+    float: left;
+    width: 15%; /* 15% of window by default */
+    background-color: #FF6666
+}
+
+.menu a{
+    /* links within the menu */
+  padding: 8px;
+  display: block;
+  color: black;
+}
+
+
+
+.main {
+    float: left;
+    width: 50%; 
+    background-color: #00FF00
+}
+
+.pics {
+    float: right;
+    width: 35%;
+    background-color: #0000FF;
+}
+
+.pics img{
+    width: 45%; /*note that this is 45% of the pics column, not the screen */
+    
+}
+/*If we're below 620px, move to stacked view */
+@media (max-width: 620px) {
+  /* For mobile phones: */
+  .menu, .main, .pics {
+    width: 100%;
+  }
+}

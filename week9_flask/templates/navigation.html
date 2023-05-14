@@ -1,0 +1,23 @@
+<html>
+ <head>
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+ </head>
+ <body>
+    <div class="navigation">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('form') }}">Form</a>
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Log In</a>
+    </div>
+    <div class="main">
+    {% block content %}
+    {% endblock %}
+    </div>
+     <div class="buttons">
+                     <button type="button" id="click-me">CLICK ME!</button>
+
+     </div>
+    <script src="{{ url_for('static', filename='js/allpages.js') }}"></script>
+ </body>
+</html>

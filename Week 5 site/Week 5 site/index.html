@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brian's Page</title>
+  <link rel="stylesheet" type="text/css" href="b20style.css">
+</head>
+
+<body>
+    <!-- this is a comment -->
+    <h1>Big title</h1>
+    <p>
+        Here's a paragraph of text
+    </p>
+    <ol>
+        <li>Item 1</li>
+        <li id="briansrant">Item 2</li> <!--bad form... don't re-use ids-->
+        <li class="important">Item 3</li>
+    </ol>
+    <h3>A smaller title</h3>
+    <p>
+        And another paragraph of text, including a link
+        to <a href="other.html">Something on this server</a>, and to <a href="http://brianharrington.net">Something not on this server</a>
+    </p>
+
+    <p class="rant important" id="briansrant">
+        Here's Brian's important rant
+    </p>
+    <p class="rant important">
+        Here's another important rant
+    </p>
+    <p class="rant">
+        Here's a rant that's not important
+    </p>
+    <p class="important">
+        Here's something important that's not a rant
+    </p>
+    <p class="rant">
+        Here's a rant that has an <a class="important">important part</a>
+    </p>
+
+<hr/>
+<h2>Let's try to make things responsive</h2>
+
+<!--totally static-->
+<h2 font-size=10px>My Dogs</h2>    
+<img src="images/rocket.jpg" width=200px>
+<img src="images/groot.jpg" width=200px>
+<hr>
+<!--partially dynamic-->
+<h2 class="dynamic-text">My Dogs</h2>
+<img src="images/rocket.jpg" class="dynamic-img">
+<img src="images/groot.jpg" class="dynamic-img">
+<hr>
+    
+<!--better idea: let's make something that will work on both phones and full screens -->
+<div class="header">
+    My Dogs
+</div>
+<div class="menu">
+    <a href="">Link 1</a>
+    <a href="">Link 2</a>
+    <a href="">Link 3</a>
+
+</div>
+<div class="main">
+    These are my dogs, their names are Rocket & Groot (yes, named after the characters from Guardian's of the Galaxy). They are Newfies, and they weigh about 70-75kg (155-165lb) each.
+</div>
+<div class="pics">
+    <img src="images/rocket.jpg">
+    <img src="images/groot.jpg">
+</div>
+    
+</body>
+
+</html>

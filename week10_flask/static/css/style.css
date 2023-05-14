@@ -1,0 +1,28 @@
+body {
+    background-color: lightblue;
+    font-family: sans-serif;
+}
+
+.navigation{
+    background: #00ccff;
+}
+
+.navigation a{
+    color: white;
+}
+
+.navigation a:hover{
+    background: #00ddcc;
+}
+
+.flashes{
+    color:red;
+}
+
+/*If we're below 620px, move to stacked view */
+@media (max-width: 620px) {
+  /* For mobile phones: */
+  .navigation, .main {
+    width: 100%;
+  }
+}

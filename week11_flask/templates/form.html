@@ -1,0 +1,16 @@
+{% extends "navigation.html" %}
+{% block content %}
+        <h1>Form test</h1>
+        <p>
+            <form action="/api/formpost" method="POST">
+        <label> Type something, we'll send it to the server: </label>
+        <input
+          type="text"
+          name="user-text"
+          placeholder="What do you want to tell Flask?"
+        />
+        <input type="submit" value="Submit" />
+
+        </p>
+    
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "navigation.html" %}
+{% block content %}
+        <h1>Register a New User</h1>
+{% with messages = get_flashed_messages(with_categories = True) %}
+{% if messages %}
+    <ul class=flashes>
+    {% for category, message in messages %}
+      <div> {{ category }} - {{ message }} </div>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<p>
+            <form action="/api/register" method="POST">
+        <label> Username: </label>
+        <input
+          type="text"
+          name="username"
+          placeholder="Choose a user name"
+          required
+        />
+        <br>
+        <label> Password: </label>
+        <input
+            type = "password"
+            name = "password"
+            placeholder="Choose a password"
+            required
+        />
+        <br>
+        <input type="submit" value="Submit" />
+
+        </p>
+    
+{% endblock %}

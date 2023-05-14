@@ -1,0 +1,97 @@
+--for some reason, SQLite often has foreign key constraints off by default, so we're goign to turn them back on
+PRAGMA foreign_keys = ON;
+
+DROP TABLE IF EXISTS Instructor;
+DROP TABLE IF EXISTS Course;
+
+CREATE TABLE Instructor
+(
+  faculty_id  TEXT,
+  name  TEXT,
+  office  TEXT,
+  PRIMARY KEY(faculty_id)
+);
+
+
+
+CREATE TABLE Course
+(
+    code  TEXT,
+    semester  TEXT,
+    enrolment  INTEGER,
+    room  TEXT,
+    instructor TEXT,
+    PRIMARY KEY(code, semester),
+    FOREIGN KEY(instructor) REFERENCES Instructor(faculty_id)
+    CHECK(enrolment > 5 and enrolment < 1500)
+);
+
+----------INSERTION------------
+--let's make some instructors
+INSERT INTO Instructor (faculty_id, name, office)
+    VALUES ('12345', 'Brian', 'IC342'),
+        -- won't insert (non unique PK)
+        --('12345', 'Alice', 'AC987'),
+        ('98765', 'Turing', 'IC123'),
+        ('23456', 'Curie', 'SW432');
+
+--and now some courses
+INSERT INTO Course (code, semester, enrolment, room, instructor)
+    VALUES('CSCA20', 'S', 450, 'AC223', '12345'),
+        --can have part of PK, as long as whole PK isn't repeated
+        ('CSCA20', 'F', 250, 'IC120', '98765'),
+        --can't repeat whole PK
+        --('CSCA20', 'S', 250, 'IC120', '98765'),
+        --Enforcing FK exists in another table
+        --('CSCA08', 'F', 800, 'IC120', '99999');
+        --breaking our enrlment constraint
+        --('BIOA01', 'F', 1700, 'SW123', '23456'),
+        ('CHMA01', 'F', 800, 'SW309', '23456'),
+        ('PHYC56', 'S', 75, 'SW104', '23456');
+
+
+------------SELECTION-------------
+SELECT '-----Instructor table----'; -- doesn't actually do anything, just there to let us see output breaks
+SELECT * FROM Instructor;
+SELECT '----Course table----';
+SELECT * FROM Course;
+
+SELECT '----QUERIES----';
+--projection
+SELECT code, enrolment FROM Course;
+SELECT '---';
+---selection
+SELECT * FROM Course WHERE enrolment > 300;
+SELECT '---';
+--- join
+SELECT * FROM Course, Instructor;
+SELECT '---';
+SELECT Course.code, Instructor.name 
+    FROM Course, Instructor 
+    WHERE Course.instructor = Instructor.faculty_id;
+--can't do a natural join, because the faculty id has different names in the two tables
+select '---';
+ALTER TABLE Course
+    RENAME COLUMN instructor TO faculty_id;
+SELECT Course.code, Instructor.name
+    FROM Course NATURAL JOIN Instructor;
+SELECT '---';
+--union
+SELECT code from Course
+    WHERE enrolment > 500
+UNION 
+SELECT code from Course
+    WHERE enrolment < 100;
+SELECT '---';
+--intersection
+SELECT code from Course
+    WHERE enrolment > 500
+INTERSECT
+SELECT code from Course
+    WHERE faculty_id = '23456';
+SELECT '---';
+---difference
+SELECT code, semester from Course
+EXCEPT
+SELECT code, semester from Course
+    WHERE faculty_id = '12345';
